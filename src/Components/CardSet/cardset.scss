@@ -1,0 +1,35 @@
+.card_set_card {
+    width: 300px;
+    height: 460px;
+    margin: 20px;
+    background-color: #001529;
+    color: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+    .symbol_and_title_container {
+        display: flex;
+        justify-content: space-between;
+        img {
+            width: 30px;
+        }
+    }
+
+    .card_image_container {
+        background-color: white;
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        max-width: 280px;
+        img {
+            width: 250px;
+            height: 150px;
+        }
+    }
+
+    .card_title {
+        width: 100%; 
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+}
