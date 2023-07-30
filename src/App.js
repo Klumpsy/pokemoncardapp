@@ -5,6 +5,7 @@ import TopBarNavigation from "./Components/Navigation/TopBarNavigation/TopBarNav
 import SidebarNavigation from "./Components/Navigation/SideBar/SideBarNavigation";
 import CardSets from "./Pages/CardSets/CardSets";
 import { Layout } from "antd";
+import Cards from "./Pages/Cards/Cards";
 
 const { Content, Sider } = Layout;
 
@@ -21,6 +22,10 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/cardsets" element={<CardSets />} />
+              <Route
+                path="/cardsets/:cardSetName/:setId/cards"
+                element={<Cards />}
+              />
             </Routes>
           </Content>
         </Layout>
