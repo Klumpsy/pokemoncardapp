@@ -19,4 +19,12 @@
       -ms-flex-align: center;
           align-items: center;
 }
+
+.searchbar_container {
+  margin: 10px;
+}
+
+.filter_container {
+  margin: 10px;
+}
 /*# sourceMappingURL=cards.css.map */

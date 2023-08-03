@@ -5,6 +5,10 @@ import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 const PokeCard = ({card}) => {
   const [count, setCount] = useState(0);
 
+  const { cardmarket = {} } = card;
+  const { prices = {} } = cardmarket;
+  const { averageSellPrice, lowPrice, trendPrice } = prices;
+
   return (
     <Card style={{ width: "500px", margin:"10px"}}>
       <div style={{ display: "flex" }}>
