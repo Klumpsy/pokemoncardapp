@@ -27,45 +27,47 @@ export const setCardCount = async (
   setId,
   cardId,
   cardName,
-  owner,
+  owner = "bartmartin",
   cardAmount,
-  setCount,
-  count
+  rarity = "normal"
 ) => {
-  const ref = doc(db, "cardsets", setId, "ownerscards", owner);
+  const ref = doc(db, "cardsets", setId);
   const docSnap = await getDoc(ref);
+
   if (!docSnap.exists()) {
-    await setDoc(ref, {
+    await setDoc(doc(db, "cardsets", setId), {
       [cardId]: {
         cardName: cardName,
-        cardAmount: 0,
+        owner: owner,
+        [rarity]: {
+          cardAmount: cardAmount,
+        },
       },
     });
-    setCount(count + cardAmount);
   } else {
-    await updateDoc(ref, {
-      [`${cardId}.cardAmount`]: increment(cardAmount),
-      [`${cardId}.cardName`]: cardName,
-    });
-    setCount(count + cardAmount);
+    const cardData = docSnap.data()[cardId];
+
+    const updateData = {
+      ...cardData,
+      [rarity]: {
+        cardAmount: (cardData[rarity]?.cardAmount || 0) + cardAmount,
+      },
+    };
+    await updateDoc(ref, { [cardId]: updateData });
   }
 };
 
 export const getCardData = async (setId, owner) => {
+  const ref = doc(db, "cardsets", setId, "ownerscards", owner);
   try {
-    const docRef = doc(db, "cardsets", setId, "ownerscards", owner);
-    const docSnap = await getDoc(docRef);
-
+    const docSnap = await getDoc(ref);
     if (docSnap.exists()) {
       return docSnap.data();
-    } else {
-      console.log(`No such document for owner:${owner}`);
-      return {};
     }
   } catch (e) {
-    console.error("Error getting card: ", e);
-    return {};
+    console.error("Error getting card:", e);
   }
+  return {};
 };
 
 export const signIn = async (email, password) => {
