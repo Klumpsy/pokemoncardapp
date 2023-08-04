@@ -27,4 +27,19 @@
         margin-left: auto;
       }
     }
+
+    .second_row {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      .ordering_reset_container {
+        display: flex;
+        
+        .ordering_button {
+          margin-right: 10px;
+        }
+      }
+    }
   }

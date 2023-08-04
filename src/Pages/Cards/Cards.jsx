@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import PokeCard from "../../Components/Card/PokeCard";
 import SearchBar from "../../Components/SearchBar/SearchBar";
 import FilterBar from "../../Components/FilterBar/Filterbar";
+import {filterCards} from "../../Helpers/FilterHelper";
+import {getCardData } from '../../Helpers/FirebaseHelper';
 import "./cards.css";
 
 const Cards = () => {
@@ -55,41 +57,19 @@ useEffect(() => {
     setCards(orderedCards);
 }, [order]);
 
-const handleSearch = (term) => {
+  const handleSearch = (term) => {
     setSearchTerm(term.toLowerCase()); // Update state when user enters a search term
   }
-  
-  const filteredCards = cards
-    .filter(card => rarity ? card.rarity.toLowerCase() === rarity : true)
-    .filter(card => type ? card.types && card.types.length > 0 && card.types[0].toLowerCase() === type : true)
-    .filter(card =>
-      holo
-        ? holo === "holo"
-          ? card.tcgplayer && card.tcgplayer.prices && card.tcgplayer.prices.holofoil
-          : holo === "reverseholo"
-          ? card.tcgplayer && card.tcgplayer.prices && card.tcgplayer.prices.reverseHolofoil
-          : true
-        : true
-    )
-    .filter(card =>
-      period && price
-        ? period === "avg1"
-          ? comparison === ">"
-            ? card.cardmarket && card.cardmarket.prices && card.cardmarket.prices.avg1 > price
-            : card.cardmarket && card.cardmarket.prices && card.cardmarket.prices.avg1 < price
-          : period === "avg7"
-          ? comparison === ">"
-            ? card.cardmarket && card.cardmarket.prices && card.cardmarket.prices.avg7 > price
-            : card.cardmarket && card.cardmarket.prices && card.cardmarket.prices.avg7 < price
-          : period === "avg30"
-          ? comparison === ">"
-            ? card.cardmarket && card.cardmarket.prices && card.cardmarket.prices.avg30 > price
-            : card.cardmarket && card.cardmarket.prices && card.cardmarket.prices.avg30 < price
-          : true
-        : true
-    )
-    .filter(card => 
-      card.name.toLowerCase().includes(searchTerm) || card.id.includes(searchTerm)
+
+  const filteredCards = filterCards(
+    cards, 
+    rarity, 
+    type, 
+    holo, 
+    period, 
+    price, 
+    comparison, 
+    searchTerm
     );
 
  return (
@@ -100,30 +80,32 @@ const handleSearch = (term) => {
               </div>
           ) : (
               <div>
-                <div className="searchbar_container">
-                    <SearchBar value={searchTerm} onChange={handleSearch} />
-                </div>
-                  <div className="filter_container">
-                    <FilterBar 
-                        order={order} 
-                        setOrder={setOrder} 
-                        rarity={rarity} 
-                         setRarity={setRarity} 
-                         type={type} 
-                         setType={setType}
-                         holo={holo} 
-                         setHolo={setHolo}
-                         period={period}
-                         setPeriod={setPeriod} 
-                         comparison={comparison}
-                         setComparison={setComparison} 
-                         price={price} 
-                        setPrice={setPrice} 
+                <div className='search_filter_sticky_container'>
+                    <div className="searchbar_container">
+                        <SearchBar value={searchTerm} onChange={handleSearch} />
+                    </div>
+                    <div className="filter_container">
+                        <FilterBar 
+                            order={order} 
+                            setOrder={setOrder} 
+                            rarity={rarity} 
+                            setRarity={setRarity} 
+                            type={type} 
+                            setType={setType}
+                            holo={holo} 
+                            setHolo={setHolo}
+                            period={period}
+                            setPeriod={setPeriod} 
+                            comparison={comparison}
+                            setComparison={setComparison} 
+                            price={price} 
+                            setPrice={setPrice} 
                         />
-                  </div>
-                  <div className="pokemon_cards_container">
-                    {filteredCards.map((card, index) => <PokeCard key={index} card={card} />)}
-                  </div>
+                    </div>
+                </div>
+                <div className="pokemon_cards_container">
+                    {filteredCards.map((card, index) => <PokeCard key={index} card={card} setId={setId} />)}
+                </div>
               </div>
           )}
       </div>
