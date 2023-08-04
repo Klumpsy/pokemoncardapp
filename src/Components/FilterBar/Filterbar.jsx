@@ -1,4 +1,7 @@
 import { Select, Input, Radio, Button } from 'antd';
+import { useContext } from 'react';
+import OwnerContext from '../../Context/OwnerContext';
+import './filterbar.css'
 
 const { Option } = Select;
 
@@ -10,6 +13,8 @@ const FilterBar = ({
     period, setPeriod, 
     comparison, setComparison, 
     price, setPrice }) => {
+
+    const { setOwner } = useContext(OwnerContext);
   
     const resetFilters = () => {
       setRarity(null);
@@ -23,6 +28,7 @@ const FilterBar = ({
   
     return (
       <div className="filter-bar">
+        <label>rarity</label>
         <Select
           style={{ width: '15%' }}
           placeholder="Select a Rarity"
@@ -41,9 +47,18 @@ const FilterBar = ({
           <Option value="No filter">No Filter</Option>
           <Option value="fire">Fire</Option>
           <Option value="water">Water</Option>
-          {/* Add more options if needed */}
+          <Option value="grass">Grass</Option>
+          <Option value="fighting">Fighting</Option>
+          <Option value="dragon">Dragon</Option>
+          <Option value="lightning">Lightning</Option>
+          <Option value="fairy">Fairy</Option>
+          <Option value="psychic">Psychic</Option>
+          <Option value="darkness">Darkness</Option>
+          <Option value="metal">Metal</Option>
+          <Option value="colorless">Normal</Option>
         </Select>
-  
+      
+
         <Select
           style={{ width: '15%' }}
           value={holo || 'No filter'}
@@ -54,7 +69,6 @@ const FilterBar = ({
         </Select>
     
         <Select
-          style={{ width: '15%' }}
           value={period || 'No filter'}
           onChange={value => setPeriod(value === 'No filter' ? null : value)}>
           <Option value="No filter">No Filter</Option>
@@ -77,18 +91,34 @@ const FilterBar = ({
           onChange={(e)=> setPrice(e.target.value)}>
         </Input>
 
-        <Select
-        style={{ width: '15%' }}
-        placeholder="Order By"
-        value={order}
-        onChange={setOrder}>
-        <Option value="asc">Ascending</Option>
-        <Option value="desc">Descending</Option>
-      </Select>
-  
-        <Button type="primary" onClick={resetFilters}>
-          Reset Filters
-        </Button>
+        <div className='second_row'>
+        <div className='ordering_reset_container'>
+          <div className='ordering_button'>
+            <Select
+              placeholder="Order By"
+              value={order}
+              onChange={setOrder}>
+              <Option value="asc">Ascending</Option>
+              <Option value="desc">Descending</Option>
+            </Select>
+          </div>
+
+          <div>
+            <Button type="primary" onClick={resetFilters}>
+              Reset Filters
+            </Button>
+          </div>
+        </div>
+          <Select
+            placeholder="Select an Owner"
+            onChange={value => setOwner(value)}
+            defaultValue={'bartmartin'}
+            >
+            <Option value="martin">Martin</Option>
+            <Option value="bartmartin">Bart & Martin</Option>
+            <Option value="ronald">Ronald</Option>
+        </Select>
+        </div>
       </div>
     );
   }
