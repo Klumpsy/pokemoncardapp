@@ -15,7 +15,7 @@ const FilterBar = ({
     price, setPrice }) => {
 
     const { setOwner } = useContext(OwnerContext);
-  
+
     const resetFilters = () => {
       setRarity(null);
       setType(null);

@@ -1,1 +1,14 @@
-/* No CSS *//*# sourceMappingURL=navbar.css.map */
+.flex_menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.flex_menu .right_side_menu {
+  float: right;
+}
+/*# sourceMappingURL=navbar.css.map */

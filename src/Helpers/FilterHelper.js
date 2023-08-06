@@ -6,7 +6,8 @@ export function filterCards(
   period,
   price,
   comparison,
-  searchTerm
+  searchTerm,
+  order
 ) {
   return cards
     .filter((card) => (rarity ? card.rarity.toLowerCase() === rarity : true))
@@ -63,5 +64,14 @@ export function filterCards(
       (card) =>
         card.name.toLowerCase().includes(searchTerm) ||
         card.id.includes(searchTerm)
-    );
+    )
+    .sort((a, b) => {
+      if (order === "asc") {
+        return Number(a.number) - Number(b.number);
+      } else if (order === "desc") {
+        return Number(b.number) - Number(a.number);
+      } else {
+        return 0;
+      }
+    });
 }

@@ -1,0 +1,50 @@
+.title_container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.title_container img {
+  width: 40px;
+  height: 40px;
+}
+
+.sell_chart_container {
+  margin-bottom: 50px;
+  margin-top: 2rem;
+}
+
+.column_container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.column_container .left_column {
+  width: 30%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.column_container .middle_column {
+  width: 30%;
+}
+
+.column_container .right_column {
+  width: 40%;
+}
+/*# sourceMappingURL=pokecardmodal.css.map */

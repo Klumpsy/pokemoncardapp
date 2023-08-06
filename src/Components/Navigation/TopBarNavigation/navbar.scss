@@ -1,0 +1,9 @@
+.flex_menu {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    .right_side_menu {
+        float: right;
+    }
+}
