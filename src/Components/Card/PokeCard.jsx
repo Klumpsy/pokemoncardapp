@@ -167,7 +167,13 @@ const PokeCard = ({ card, setId }) => {
       </div>
       </div>
       </div>
-      <PokeCardModal isVisible={isModalVisible} handleCancel={handleCancel} card={card} />
+      {card && (
+      <PokeCardModal 
+        isVisible={isModalVisible} 
+        handleCancel={handleCancel} 
+        card={card} 
+        cardData={cardData} />
+      )}
     </Card>
   );
 };

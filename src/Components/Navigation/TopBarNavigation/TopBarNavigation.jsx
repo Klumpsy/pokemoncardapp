@@ -7,38 +7,32 @@ const { Header } = Layout;
 const { SubMenu } = Menu;
 
 const TopbarNavigation = () => {
- 
-  return (
-    <Header>
-      <div className="flex-menu">
-        <Menu mode="horizontal" theme="dark">
+
+    return (
+      <Header style={{ width: '100%' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Menu mode="horizontal" theme="dark">
             <Menu.Item key='home'> 
-                <Link to="/" className="navbar-logo">PokéStop B&M</Link>
+              <Link to="/" className="navbar-logo">PokéStop B&M</Link>
             </Menu.Item>
-
-            <Menu.Item key ={'link'}>
-                <Link to={`#`}>Link</Link>
+          </Menu>
+          <Menu mode="horizontal" theme="dark" style={{ lineHeight: '64px' }}>
+            <Menu.Item key ='link'>
+              <Link to='#'>Link</Link>
             </Menu.Item>
-
             <SubMenu key="SubMenu" title="Account">
-                <Menu.Item key="login">
-                    <Link to="/login">Login</Link>
-                </Menu.Item>
-                <Menu.Item key="logout">
-                <Link 
-                  to="/logout" 
-                    onClick={async () => {
-                      await signOutUser();
-                            }}
-                  >
-                    Logout
-                  </Link>
-                </Menu.Item>
+              <Menu.Item key="logout">
+                <Link to="/logout" onClick={async () => {
+                    await signOutUser();
+                }}>
+                  Logout
+                </Link>
+              </Menu.Item>
             </SubMenu>
-         </Menu>
-      </div>
-    </Header>
-  );
-};
+          </Menu>
+        </div>
+      </Header>
+    );
+  };
 
 export default TopbarNavigation;
