@@ -3,9 +3,9 @@ import {
   getFirestore,
   doc,
   getDoc,
+  getDocs,
   setDoc,
   updateDoc,
-  increment,
   collection,
 } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -27,47 +27,67 @@ export const setCardCount = async (
   setId,
   cardId,
   cardName,
-  owner = "bartmartin",
+  owner,
   cardAmount,
   rarity = "normal"
 ) => {
-  const ref = doc(db, "cardsets", setId);
+  const ref = doc(db, "cardsets", setId, "cards", cardId);
   const docSnap = await getDoc(ref);
 
   if (!docSnap.exists()) {
-    await setDoc(doc(db, "cardsets", setId), {
-      [cardId]: {
-        cardName: cardName,
-        owner: owner,
-        [rarity]: {
-          cardAmount: cardAmount,
+    await setDoc(ref, {
+      cardName: cardName,
+      owners: {
+        [owner]: {
+          rarities: {
+            [rarity]: cardAmount,
+          },
         },
       },
     });
   } else {
-    const cardData = docSnap.data()[cardId];
-
+    const cardData = docSnap.data();
     const updateData = {
       ...cardData,
-      [rarity]: {
-        cardAmount: (cardData[rarity]?.cardAmount || 0) + cardAmount,
+      owners: {
+        ...cardData.owners,
+        [owner]: {
+          rarities: {
+            ...((cardData.owners[owner] && cardData.owners[owner].rarities) ||
+              {}),
+            [rarity]:
+              ((cardData.owners[owner] &&
+                cardData.owners[owner].rarities[rarity]) ||
+                0) + cardAmount,
+          },
+        },
       },
     };
-    await updateDoc(ref, { [cardId]: updateData });
+    await updateDoc(ref, updateData);
   }
 };
 
 export const getCardData = async (setId, owner) => {
-  const ref = doc(db, "cardsets", setId, "ownerscards", owner);
+  const ref = collection(db, "cardsets", setId, "cards");
+
   try {
-    const docSnap = await getDoc(ref);
-    if (docSnap.exists()) {
-      return docSnap.data();
-    }
-  } catch (e) {
-    console.error("Error getting card:", e);
+    const querySnapshot = await getDocs(ref);
+    let cardsData = {};
+    querySnapshot.forEach((doc) => {
+      const card = doc.data();
+      if (card.owners && card.owners[owner]) {
+        cardsData[doc.id] = {
+          cardName: card.cardName,
+          owner: owner,
+          rarities: card.owners[owner].rarities,
+        };
+      }
+    });
+    return cardsData;
+  } catch (err) {
+    console.error("Error getting card:", err);
+    return {};
   }
-  return {};
 };
 
 export const signIn = async (email, password) => {
