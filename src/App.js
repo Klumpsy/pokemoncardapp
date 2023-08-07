@@ -10,6 +10,7 @@ import { Layout } from "antd";
 import Cards from "./Pages/Cards/Cards";
 import Login from "./Pages/Login/Login";
 import { OwnerProvider } from "./Context/OwnerContext";
+import PsaGraded from "./Pages/PsaGraded/PsaGrades";
 
 const { Content, Sider } = Layout;
 
@@ -41,6 +42,7 @@ function App() {
                     <Routes>
                       <Route path="/" element={<HomePage />} />
                       <Route path="/cardsets" element={<CardSets />} />
+                      <Route path="/psa" element={<PsaGraded />} />
                       <Route
                         path="/cardsets/:cardSetName/:setId/cards"
                         element={<Cards />}

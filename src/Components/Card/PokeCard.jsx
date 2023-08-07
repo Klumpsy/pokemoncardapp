@@ -6,6 +6,7 @@ import OwnerContext from "../../Context/OwnerContext";
 import OwnerBadge from "./OwnerBadge/OwnerBadge";
 import PokeCardModal from "./PokeCardModal/PokeCardModal";
 import "./pokecard.css";
+import PsaGradeModal from "./PsaGradeModal/PsaGradeModal";
 
 const { Option } = Select;
 
@@ -13,11 +14,14 @@ const PokeCard = ({ card, setId }) => {
   const [count, setCount] = useState(0);
   const [cardRarity, setCardRarity] = useState("normal");
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isPSAModalVisible, setPSAModalVisible] = useState(false);
   const cardmarket = card?.cardmarket || {};
   const prices = cardmarket.prices || {};
   const { averageSellPrice, lowPrice, trendPrice } = prices;
   const [cardData, setCardData] = useState(null);
   const { owner } = useContext(OwnerContext);
+
+  console.log(cardData);
 
   useEffect(() => {
     const getInitialCount = async () => {
@@ -59,6 +63,14 @@ const PokeCard = ({ card, setId }) => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+
+  const showPSAModal = () => {
+    setPSAModalVisible(true);
+  };
+
+  const handlePSAModalCancel = () => {
+    setPSAModalVisible(false);
   };
 
   return (
@@ -164,15 +176,40 @@ const PokeCard = ({ card, setId }) => {
               <Option value="promo">Promo</Option>
             </Select>
           </div>
+          <div className="psa_container">
+              {/* <div>
+                  {cardData}
+              </div> */}
+              <div className="psa_logo_container">
+
+              </div>
+              <Button
+                className="green-button"
+                type="primary"
+                shape="circle"
+                icon={<PlusOutlined />}
+                onClick={showPSAModal}
+              />
+          </div>
       </div>
       </div>
       </div>
-      {card && (
-      <PokeCardModal 
-        isVisible={isModalVisible} 
-        handleCancel={handleCancel} 
-        card={card} 
-        cardData={cardData} />
+      {card && setId && (
+      <>
+        <PokeCardModal 
+          isVisible={isModalVisible} 
+          handleCancel={handleCancel} 
+          card={card} 
+          cardData={cardData}
+        />
+        <PsaGradeModal
+          isPsaGradeModalVisible={isPSAModalVisible}
+          handleCancel={handlePSAModalCancel} 
+          card={card} 
+          setId={setId}
+          cardData={cardData}
+        />
+      </>
       )}
     </Card>
   );
