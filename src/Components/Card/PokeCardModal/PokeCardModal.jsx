@@ -8,6 +8,8 @@ const PokeCardModal = ({ isVisible, handleCancel, card, cardData }) => {
         window.open(card?.cardmarket?.url, '_blank');
     };
 
+    console.log(card);
+
     return ( 
         isVisible ? (
             <Modal 
@@ -29,12 +31,12 @@ const PokeCardModal = ({ isVisible, handleCancel, card, cardData }) => {
                             <img src={card.images.small} alt={card.name} />
                             <div className="sell_chart_container">
                                 <AvarageSellPricesBarChart 
-                                    day1Regular={card.cardmarket.prices.avg1} 
-                                    day7Regular={card.cardmarket.prices.avg7}  
-                                    day30Regular={card.cardmarket.prices.avg30} 
-                                    day1Holo={card.cardmarket.prices.reverseHoloAvg1} 
-                                    day7Holo={card.cardmarket.prices.reverseHoloAvg7} 
-                                    day30Holo={card.cardmarket.prices.reverseHoloAvg30}
+                                    day1Regular={card.cardmarket?.prices.avg1} 
+                                    day7Regular={card.cardmarket?.prices.avg7}  
+                                    day30Regular={card.cardmarket?.prices.avg30} 
+                                    day1Holo={card.cardmarket?.prices.reverseHoloAvg1} 
+                                    day7Holo={card.cardmarket?.prices.reverseHoloAvg7} 
+                                    day30Holo={card.cardmarket?.prices.reverseHoloAvg30}
                                 />
                             </div>
                         </div>
