@@ -12,6 +12,19 @@
   padding: 5px;
 }
 
+.graded_card_container .title_badge {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.graded_card_container .title_badge h3 {
+  margin-right: 15px;
+}
+
 .graded_card_container .title_container {
   display: -webkit-box;
   display: -ms-flexbox;

@@ -5,6 +5,15 @@
     border-bottom: 1px solid black;
     padding: 5px;
 
+    .title_badge{
+
+        display: flex;
+        align-items: center;
+        h3 {
+            margin-right: 15px;
+        }
+    }
+
     .title_container{
         display: flex;
         flex-direction: column;

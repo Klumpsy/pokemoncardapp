@@ -90,11 +90,17 @@ export const getCardData = async (setId, owner) => {
   }
 };
 
-export const createOrUpdatePsaGrade = async (setId, cardId, gradeData) => {
+export const createOrUpdatePsaGrade = async (
+  setId,
+  cardId,
+  gradeData,
+  owner
+) => {
   try {
-    const ref = doc(db, "psagraded", cardId); // using cardId as the document id
+    const ref = doc(db, "psagraded", cardId);
     const data = {
       setId: setId,
+      owner: owner,
       cardData: gradeData,
     };
 

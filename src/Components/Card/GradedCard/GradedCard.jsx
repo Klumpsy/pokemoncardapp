@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Spin } from 'antd';
+import OwnerBadge from "../OwnerBadge/OwnerBadge";
 import "./gradedcard.css";
 
 const GradedCard = ({ gradedCardData, handleOpenModal }) => {
@@ -29,7 +30,10 @@ const GradedCard = ({ gradedCardData, handleOpenModal }) => {
   return (
     <div className="graded_card_container">
       <div className='title_container'>
-        <h3>{card?.name}</h3>
+        <div class='title_badge'>
+            <h3>{card?.name}</h3>
+            <OwnerBadge owner={gradedCardData.owner} />
+        </div>
         <img src={card?.images?.small} alt={card?.name} />
       </div>
       <div className="graded_cards_info">

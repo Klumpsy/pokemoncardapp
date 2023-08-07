@@ -1,7 +1,8 @@
 import { Modal, Button, Spin, Form, Input, DatePicker } from "antd";
 import './psagrademodal.css';
 import {createOrUpdatePsaGrade} from '../../../Helpers/FirebaseHelper';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import OwnerContext from "../../../Context/OwnerContext";
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,21 +10,26 @@ const PsaGradeModal = ({ isPsaGradeModalVisible, handleCancel, card, setId, card
 
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    const { owner } = useContext(OwnerContext);
 
-    const handleSubmit = async values => {
+    const handleSubmit = async (values, isCreateOperation = false) => {
         const sendAt = values.sendAt ? values.sendAt.toDate() : null;
-        const receivedAt = values.receivedAt ? values.receivedAt.toDate() : "notReceived";
+        const receivedAt = values.receivedAt ? values.receivedAt.toDate() : (isCreateOperation ? "notReceived" : null);
         const grade = values.grade ? values.grade : 'no grade';   
-        const comments = values.comments ? values.comments : 'no comments'; // default comments value
+        const comments = values.comments ? values.comments : 'no comments'; 
       
-        const gradeData = {...values, sendAt, receivedAt, grade, comments};  // Include 'comments' in your data
-          
-        if(card && setId && card.id) {
-          await createOrUpdatePsaGrade(setId, card.id, gradeData);
-          handleCancel(); 
+        const gradeData = {...values, sendAt, receivedAt, grade, comments};
+      
+        if(card && setId && card.id && owner && typeof owner === 'string') {
+          await createOrUpdatePsaGrade(setId, card.id, gradeData, owner);
+          handleCancel();
           navigate('/psa');
         } else {
-          console.log('Card data missing', card);
+          if(!card) console.log('Card data missing', card);
+          if(!setId) console.log('setId is missing');
+          if(!card?.id) console.log('cardId is missing');
+          if(!owner) console.log('owner is missing');
+          if(owner && typeof owner !== 'string') console.log('Invalid owner value', owner);
         }
       }
 
@@ -57,7 +63,7 @@ const PsaGradeModal = ({ isPsaGradeModalVisible, handleCancel, card, setId, card
                     <div className="modal_container">
                         <img src={card.images.small} alt={card.name} />
                         <div className="form_container">
-                        <Form form={form} layout="vertical" onFinish={handleSubmit}>
+                        <Form form={form} layout="vertical" onFinish={(values) => handleSubmit(values, true)}>
                             <Form.Item name="sendAt" label="Sent At" rules={[{ required: true }]}>
                                 <DatePicker />
                             </Form.Item>
