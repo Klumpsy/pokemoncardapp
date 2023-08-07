@@ -90,6 +90,46 @@ export const getCardData = async (setId, owner) => {
   }
 };
 
+export const createOrUpdatePsaGrade = async (
+  setId,
+  cardId,
+  gradeData,
+  owner
+) => {
+  try {
+    const ref = doc(db, "psagraded", cardId);
+    const data = {
+      setId: setId,
+      owner: owner,
+      cardData: gradeData,
+    };
+
+    await setDoc(ref, data, { merge: true });
+    console.log("Card created or updated successfully.");
+  } catch (err) {
+    console.error("Error creating or updating card: ", err);
+  }
+};
+
+export const getAllGradedCards = async () => {
+  try {
+    const cards = [];
+    const psagradedRef = collection(db, "psagraded");
+    const snapshot = await getDocs(psagradedRef);
+
+    snapshot.docs.forEach((doc) => cards.push({ id: doc.id, ...doc.data() }));
+
+    cards.sort((a, b) => {
+      const dateA = new Date(a.cardData.sendAt);
+      const dateB = new Date(b.cardData.sendAt);
+      return dateA - dateB;
+    });
+    return cards;
+  } catch (err) {
+    console.error("Error getting cards: ", err);
+  }
+};
+
 export const signIn = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);

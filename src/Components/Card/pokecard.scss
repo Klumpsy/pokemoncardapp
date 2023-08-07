@@ -20,6 +20,27 @@
         margin: 0 auto;
         padding: 10px;
     }
+
+    .psa_container {
+        display: flex;
+        margin-top: 1rem;
+        justify-content: space-between;
+        align-items: center;
+        .psa_logo_container {
+            width: 80px;
+            height: 60px;
+            background-image: url(/public/psa-logo.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+        
+        .green-button {
+            background-color: rgb(126, 173, 126);
+        }
+    }
+
+    
 }
 
 .firebase_data_container {

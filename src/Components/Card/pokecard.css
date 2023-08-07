@@ -36,6 +36,32 @@
   padding: 10px;
 }
 
+.owners_badge_container .psa_container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 1rem;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.owners_badge_container .psa_container .psa_logo_container {
+  width: 80px;
+  height: 60px;
+  background-image: url(/public/psa-logo.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.owners_badge_container .psa_container .green-button {
+  background-color: #7ead7e;
+}
+
 .firebase_data_container {
   display: -webkit-box;
   display: -ms-flexbox;

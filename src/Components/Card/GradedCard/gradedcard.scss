@@ -1,0 +1,37 @@
+.graded_card_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+    padding: 5px;
+
+    .title_badge{
+
+        display: flex;
+        align-items: center;
+        h3 {
+            margin-right: 15px;
+        }
+    }
+
+    .title_container{
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .graded_cards_info {
+        display: flex;
+        align-items: center;
+        margin-top: 45px;
+        justify-content: space-around;
+        width: 80%;
+    }
+
+    img {
+        height: 150px;
+        width: 120px;
+    }
+}

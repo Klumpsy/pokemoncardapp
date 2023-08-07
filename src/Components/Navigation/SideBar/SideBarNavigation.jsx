@@ -17,6 +17,9 @@ const SideBarNavigation = () => {
                     <Menu.Item key={1}>
                         <Link to="/cardsets">Card Sets</Link>
                     </Menu.Item>
+                    <Menu.Item key={1}>
+                        <Link to="/psa">PSA graded cards</Link>
+                    </Menu.Item>
                 </Menu>
             </Sider>
         </Layout>
