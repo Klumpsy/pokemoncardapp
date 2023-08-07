@@ -176,21 +176,20 @@ const PokeCard = ({ card, setId }) => {
               <Option value="promo">Promo</Option>
             </Select>
           </div>
-          <div className="psa_container">
-              {/* <div>
-                  {cardData}
-              </div> */}
-              <div className="psa_logo_container">
+          { cardData && cardData[card.id] &&  (
+            <div className="psa_container">
+            <div className="psa_logo_container">
 
-              </div>
-              <Button
-                className="green-button"
-                type="primary"
-                shape="circle"
-                icon={<PlusOutlined />}
-                onClick={showPSAModal}
-              />
-          </div>
+            </div>
+            <Button
+              className="green-button"
+              type="primary"
+              shape="circle"
+              icon={<PlusOutlined />}
+              onClick={showPSAModal}
+            />
+        </div>
+          )}
       </div>
       </div>
       </div>
