@@ -71,6 +71,8 @@ const PokeCard = ({ card, setId }) => {
     setPSAModalVisible(false);
   };
 
+  const valuesToCheck = ['holo v', 'secret', 'ultra', 'rainbow'];
+
   return (
     <Card className="pokecard">
       <div className="title_container">
@@ -163,7 +165,18 @@ const PokeCard = ({ card, setId }) => {
               padding: "10px",
             }}
           >
+            {
+               valuesToCheck.some(value => card.rarity.toLowerCase().includes(value)) ? (
             <Select
+              placeholder="Select a rarity"
+              onChange={(value) => setCardRarity(value)}
+              defaultValue={"holo"}
+            >
+              <Option value="holo">Holo</Option>
+              <Option value="promo">Promo</Option>
+            </Select>
+             ) : (
+              <Select
               placeholder="Select a rarity"
               onChange={(value) => setCardRarity(value)}
               defaultValue={"normal"}
@@ -171,8 +184,10 @@ const PokeCard = ({ card, setId }) => {
               <Option value="normal">Normal</Option>
               <Option value="reverse">Reverse</Option>
               <Option value="holo">Holo</Option>
-              <Option value="promo">Promo</Option>
+              <Option value="promo">Promo</Option>    
             </Select>
+              )
+            }  
           </div>
           { cardData && cardData[card.id] &&  (
             <div className="psa_container">
