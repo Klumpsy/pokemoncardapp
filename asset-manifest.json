@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/pokemoncardapp/static/css/main.27a17000.css",
-    "main.js": "/pokemoncardapp/static/js/main.bfed1642.js",
+    "main.js": "/pokemoncardapp/static/js/main.ff9a5948.js",
     "static/media/psa-logo.png": "/pokemoncardapp/static/media/psa-logo.be5c2bbc83b09e8962f1.png",
     "index.html": "/pokemoncardapp/index.html",
     "main.27a17000.css.map": "/pokemoncardapp/static/css/main.27a17000.css.map",
-    "main.bfed1642.js.map": "/pokemoncardapp/static/js/main.bfed1642.js.map"
+    "main.ff9a5948.js.map": "/pokemoncardapp/static/js/main.ff9a5948.js.map"
   },
   "entrypoints": [
     "static/css/main.27a17000.css",
-    "static/js/main.bfed1642.js"
+    "static/js/main.ff9a5948.js"
   ]
 }
