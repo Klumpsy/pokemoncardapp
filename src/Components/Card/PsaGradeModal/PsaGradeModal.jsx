@@ -35,15 +35,15 @@ const PsaGradeModal = ({ isPsaGradeModalVisible, handleCancel, card, setId, card
 
       useEffect(() => {
         if(cardData) {
-          form.setFieldsValue({
-            sendAt: cardData.sendAt ? moment(cardData.sendAt.toDate()) : null,
-            receivedAt: moment(cardData.receivedAt) !== 'Invalid date' ? moment(cardData.receivedAt) : null,
-            grade: cardData.grade,
-            comments: cardData.comments,
-          });
+            form.setFieldsValue({
+                sendAt: cardData.sendAt ? moment(cardData.sendAt.toDate()) : null,
+                receivedAt: moment(cardData.receivedAt) !== 'Invalid date' ? moment(cardData.receivedAt) : null,
+                grade: cardData.grade,
+                comments: cardData.comments,
+            });
         }
-      }, [cardData, form]);
-    
+    }, [cardData, form]);
+
     return ( 
         isPsaGradeModalVisible ? (
             <Modal 
@@ -63,7 +63,7 @@ const PsaGradeModal = ({ isPsaGradeModalVisible, handleCancel, card, setId, card
                     <div className="modal_container">
                         <img src={card.images.small} alt={card.name} />
                         <div className="form_container">
-                        <Form form={form} layout="vertical" onFinish={(values) => handleSubmit(values, true)}>
+                        <Form form={form} layout="vertical" onFinish={handleSubmit}>
                             <Form.Item name="sendAt" label="Sent At" rules={[{ required: true }]}>
                                 <DatePicker />
                             </Form.Item>
@@ -78,7 +78,7 @@ const PsaGradeModal = ({ isPsaGradeModalVisible, handleCancel, card, setId, card
                             </Form.Item>
                             <Form.Item>
                             <Button type="primary" htmlType="submit">
-                                 Submit
+                                Submit
                             </Button>
                         </Form.Item>
                         </Form>
@@ -88,7 +88,6 @@ const PsaGradeModal = ({ isPsaGradeModalVisible, handleCancel, card, setId, card
                     <div className="spinner_loader_container">
                         <Spin size="large" />
                     </div> )
-
                 }
             </Modal> ) : null
     );

@@ -21,8 +21,6 @@ const PokeCard = ({ card, setId }) => {
   const [cardData, setCardData] = useState(null);
   const { owner } = useContext(OwnerContext);
 
-  console.log(cardData);
-
   useEffect(() => {
     const getInitialCount = async () => {
       const fetchedCardData = await getCardData(setId, owner);

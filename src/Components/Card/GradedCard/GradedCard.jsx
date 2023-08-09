@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Spin } from 'antd';
+import { Spin} from 'antd';
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import OwnerBadge from "../OwnerBadge/OwnerBadge";
 import "./gradedcard.css";
 
-const GradedCard = ({ gradedCardData, handleOpenModal }) => {
+const GradedCard = ({ gradedCardData, handleOpenModal, handleDelete }) => {
   const [card, setCard] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,7 +31,7 @@ const GradedCard = ({ gradedCardData, handleOpenModal }) => {
   return (
     <div className="graded_card_container">
       <div className='title_container'>
-        <div class='title_badge'>
+        <div className='title_badge'>
             <h3>{card?.name}</h3>
             <OwnerBadge owner={gradedCardData.owner} />
         </div>
@@ -55,13 +56,15 @@ const GradedCard = ({ gradedCardData, handleOpenModal }) => {
         </div>
       </div>
       <div>
-        <Button 
-            type="primary" 
-            style={{backgroundColor: 'orange', borderColor: 'orange'}} 
-            onClick={() => handleOpenModal(card, gradedCardData)}
-        >
-            Edit
-        </Button>
+        <EditOutlined 
+          onClick={() => handleOpenModal(card, gradedCardData)}
+          className='edit_button'
+        />
+          
+        <DeleteOutlined 
+          className='delete_button'
+          onClick={() => handleDelete(gradedCardData.id)}
+        /> 
       </div>
     </div>
   );

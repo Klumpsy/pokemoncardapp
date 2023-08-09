@@ -1,0 +1,46 @@
+.card_container {
+  max-width: 200px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
+  padding: 10px;
+}
+
+.card_container .card_container {
+  width: 100%;
+  margin: 10px;
+}
+
+.card_container .date_logo_container {
+  height: 120px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.card_container .date_logo_container .logo_image {
+  max-width: 100px;
+  max-height: 60px;
+  margin: 10px auto;
+}
+
+.carousel_container {
+  border-bottom: 1px solid black;
+  padding: 5px;
+}
+/*# sourceMappingURL=querypokecard.css.map */

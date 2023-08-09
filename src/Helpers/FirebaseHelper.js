@@ -7,6 +7,11 @@ import {
   setDoc,
   updateDoc,
   collection,
+  deleteDoc,
+  where,
+  query,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
@@ -31,11 +36,12 @@ export const setCardCount = async (
   cardAmount,
   rarity = "normal"
 ) => {
-  const ref = doc(db, "cardsets", setId, "cards", cardId);
+  const ref = doc(db, "cards", cardId);
   const docSnap = await getDoc(ref);
 
   if (!docSnap.exists()) {
     await setDoc(ref, {
+      setId: setId,
       cardName: cardName,
       owners: {
         [owner]: {
@@ -44,11 +50,14 @@ export const setCardCount = async (
           },
         },
       },
+      lastAddedOn: Date.now(),
     });
   } else {
     const cardData = docSnap.data();
+    // Update the existing document
     const updateData = {
       ...cardData,
+      setId,
       owners: {
         ...cardData.owners,
         [owner]: {
@@ -62,17 +71,20 @@ export const setCardCount = async (
           },
         },
       },
+      lastAddedOn: Date.now(),
     };
     await updateDoc(ref, updateData);
   }
 };
 
 export const getCardData = async (setId, owner) => {
-  const ref = collection(db, "cardsets", setId, "cards");
+  const cardsCollectionRef = collection(db, "cards");
+  const cardsQuery = query(cardsCollectionRef, where("setId", "==", setId));
 
   try {
-    const querySnapshot = await getDocs(ref);
+    const querySnapshot = await getDocs(cardsQuery);
     let cardsData = {};
+
     querySnapshot.forEach((doc) => {
       const card = doc.data();
       if (card.owners && card.owners[owner]) {
@@ -83,10 +95,60 @@ export const getCardData = async (setId, owner) => {
         };
       }
     });
+
     return cardsData;
   } catch (err) {
     console.error("Error getting card:", err);
     return {};
+  }
+};
+
+export const getLastAddedCards = async (number) => {
+  const cardsRef = collection(db, "cards");
+  const cardsQuery = query(
+    cardsRef,
+    orderBy("lastAddedOn", "desc"),
+    limit(number)
+  );
+
+  let cardsData = [];
+
+  try {
+    const querySnapshot = await getDocs(cardsQuery);
+    querySnapshot.forEach((doc) => {
+      const card = doc.data();
+      let ownersData = {};
+      for (const owner in card.owners) {
+        const rarities = card.owners[owner].rarities;
+        // Check if any rarity value is 1 or more
+        if (Object.values(rarities).some((value) => value >= 1)) {
+          ownersData[owner] = { rarities };
+        }
+      }
+      if (Object.keys(ownersData).length > 0) {
+        cardsData.push({
+          id: doc.id,
+          cardName: card.cardName,
+          owners: ownersData,
+          lastAddedOn: card.lastAddedOn,
+        });
+      }
+    });
+    return cardsData;
+  } catch (err) {
+    console.error("Error getting cards:", err);
+    return [];
+  }
+};
+
+export const deletePsaGrade = async (cardId) => {
+  try {
+    const ref = doc(db, "psagraded", cardId);
+
+    await deleteDoc(ref);
+    console.log("Card deleted successfully.");
+  } catch (err) {
+    console.error("Error deleting card: ", err);
   }
 };
 

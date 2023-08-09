@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PsaGradeModal from '../../Components/Card/PsaGradeModal/PsaGradeModal';
 import GradedCard from '../../Components/Card/GradedCard/GradedCard'; // import GradedCard component here
 import { getAllGradedCards } from '../../Helpers/FirebaseHelper';
+import { deletePsaGrade } from '../../Helpers/FirebaseHelper';
 
 const PsaGraded = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -41,6 +42,15 @@ const PsaGraded = () => {
         setGradedModalVisible(false);
     }
 
+    const handleDelete = useCallback(async (cardId) => {
+        await deletePsaGrade(cardId);  // Delete the card from the database
+        const updatedGradedData = {
+            sendForGrading: gradedCardsData.sendForGrading.filter(card => card.id !== cardId),
+            graded: gradedCardsData.graded.filter(card => card.id !== cardId)
+        } 
+        setGradedCardsData(updatedGradedData);  // update the local state
+    }, [gradedCardsData]);
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -54,7 +64,8 @@ const PsaGraded = () => {
                     <GradedCard 
                         key={index} 
                         gradedCardData={card} 
-                        handleOpenModal={handleOpenModal} 
+                        handleOpenModal={handleOpenModal}
+                        handleDelete={handleDelete} 
                     /> 
                 ))}
             </div>
@@ -65,6 +76,7 @@ const PsaGraded = () => {
                         key={index} 
                         gradedCardData={card} 
                         handleOpenModal={handleOpenModal} 
+                        handleDelete={handleDelete}
                     /> 
                 ))}
             </div>

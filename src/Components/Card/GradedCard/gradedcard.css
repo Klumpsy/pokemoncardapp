@@ -59,4 +59,23 @@
   height: 150px;
   width: 120px;
 }
+
+.delete_button {
+  color: #F38D53;
+  font-size: 24px;
+  margin-top: 2rem;
+}
+
+.delete_button :hover {
+  color: #FFB285;
+}
+
+.edit_button {
+  color: #1CC3FD;
+  font-size: 24px;
+}
+
+.edit_button :hover {
+  color: #82DFFF;
+}
 /*# sourceMappingURL=gradedcard.css.map */
