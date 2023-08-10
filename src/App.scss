@@ -1,0 +1,27 @@
+.sider-fixed {
+    position: fixed;
+    height: 100vh;
+    overflow: auto;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body, html, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .app {
+    text-align: center;
+    background-color: rgb(234, 234, 234);
+    height: 100vh;
+  }
+  
+
+  
+  

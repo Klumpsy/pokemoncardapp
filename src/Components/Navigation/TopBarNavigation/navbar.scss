@@ -7,3 +7,16 @@
         float: right;
     }
 }
+
+.navbar-logo {
+    background-image: url(/public/logobenmpokestop.png);
+    background-size:contain;
+    background-position: left;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;  
+    height: 50px;
+    margin-top: 8px;
+  }

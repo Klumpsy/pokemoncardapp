@@ -1,7 +1,14 @@
+.sider-fixed {
+  position: fixed;
+  height: 100vh;
+  overflow: auto;
+}
+
 body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 body, html, #root {
@@ -12,6 +19,7 @@ body, html, #root {
 
 .app {
   text-align: center;
-  background-color: rgb(234, 234, 234);
+  background-color: #eaeaea;
   height: 100vh;
 }
+/*# sourceMappingURL=App.css.map */

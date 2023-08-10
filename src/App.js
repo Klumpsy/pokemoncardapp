@@ -35,7 +35,7 @@ function App() {
               <TopBarNavigation />
               <Layout>
                 <Sider width={200}>
-                  <SidebarNavigation />
+                  <SidebarNavigation className="site-layout-background" />
                 </Sider>
                 <Layout>
                   <Content style={{ padding: "0 24px", minHeight: 280 }}>

@@ -9,10 +9,11 @@ import "./pokecard.css";
 import PsaGradeModal from "./PsaGradeModal/PsaGradeModal";
 
 const { Option } = Select;
+const valuesToCheck = ['holo v', 'secret', 'ultra', 'rainbow', 'secret', 'rare holo'];
 
 const PokeCard = ({ card, setId }) => {
   const [count, setCount] = useState(0);
-  const [cardRarity, setCardRarity] = useState("normal");
+  const [cardRarity, setCardRarity] = useState(valuesToCheck.some(value => card.rarity.toLowerCase().includes(value)) ? 'holo' : 'normal');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isPSAModalVisible, setPSAModalVisible] = useState(false);
   const cardmarket = card?.cardmarket || {};
@@ -70,8 +71,6 @@ const PokeCard = ({ card, setId }) => {
   const handlePSAModalCancel = () => {
     setPSAModalVisible(false);
   };
-
-  const valuesToCheck = ['holo v', 'secret', 'ultra', 'rainbow'];
 
   return (
     <Card className="pokecard">

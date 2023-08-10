@@ -9,12 +9,14 @@ const { SubMenu } = Menu;
 const TopbarNavigation = () => {
 
     return (
-      <Header style={{ width: '100%' }}>
+      <Header style={{ width: '100%', margin: 0, padding: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Menu mode="horizontal" theme="dark">
-            <Menu.Item key='home'> 
-              <Link to="/" className="navbar-logo">PokéStop B&M</Link>
-            </Menu.Item>
+          <Menu.Item key='home'> 
+            <Link to="/">
+              <div className="navbar-logo"></div>
+            </Link>
+          </Menu.Item>
           </Menu>
           <Menu mode="horizontal" theme="dark" style={{ lineHeight: '64px' }}>
             <Menu.Item key ='link'>
