@@ -9,7 +9,7 @@ import "./pokecard.css";
 import PsaGradeModal from "./PsaGradeModal/PsaGradeModal";
 
 const { Option } = Select;
-const valuesToCheck = ['holo v', 'secret', 'ultra', 'rainbow', 'secret', 'rare holo'];
+const valuesToCheck = ['holo v', 'secret', 'ultra', 'rainbow', 'secret'];
 
 const PokeCard = ({ card, setId }) => {
   const [count, setCount] = useState(0);
