@@ -21,6 +21,13 @@
         }
     }
 
+    .favorite_icon {
+        font-size: 22px;
+        margin-bottom: 4.5rem;
+        margin-left: 5px;
+        color: rgb(255, 180, 17);
+    }
+
     .card_image_container {
         background-color: white;
         border-radius: 50%;
@@ -77,4 +84,8 @@
         text-overflow: ellipsis;
         text-align: center;
       }
+}
+
+.favorite_set_border {
+    box-shadow: rgb(255, 180, 17) 0px 2px 3px, rgb(255, 180, 17) 0px 2px 3px;
 }

@@ -9,6 +9,22 @@
           justify-content: center;
   margin-top: 1rem;
   float: left;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.favorite_card_set_container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 1rem;
+  float: left;
+  width: 100%;
   max-width: 1000px;
 }
 
