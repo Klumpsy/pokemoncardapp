@@ -28,3 +28,13 @@
     border-radius: 10px;
     border-bottom: 1px solid black;
 }
+
+.total_count_container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 1rem;
+}

@@ -8,8 +8,6 @@ const PokeCardModal = ({ isVisible, handleCancel, card, cardData }) => {
         window.open(card?.cardmarket?.url, '_blank');
     };
 
-    console.log(card);
-
     return ( 
         isVisible ? (
             <Modal 

@@ -6,6 +6,7 @@ import {
   getDocs,
   setDoc,
   updateDoc,
+  runTransaction,
   collection,
   deleteDoc,
   where,
@@ -33,48 +34,51 @@ export const setCardCount = async (
   cardId,
   cardName,
   owner,
-  cardAmount,
+  delta,
   rarity = "normal"
 ) => {
   const ref = doc(db, "cards", cardId);
-  const docSnap = await getDoc(ref);
 
-  if (!docSnap.exists()) {
-    await setDoc(ref, {
-      setId: setId,
-      cardName: cardName,
-      owners: {
-        [owner]: {
-          rarities: {
-            [rarity]: cardAmount,
+  // Use a transaction to ensure accurate reading and writing.
+  const newCount = await runTransaction(db, async (transaction) => {
+    const docSnap = await transaction.get(ref);
+
+    if (!docSnap.exists()) {
+      const newCount = delta;
+      transaction.set(ref, {
+        setId: setId,
+        cardName: cardName,
+        owners: {
+          [owner]: {
+            rarities: {
+              [rarity]: newCount,
+            },
           },
         },
-      },
-      lastAddedOn: Date.now(),
-    });
-  } else {
-    const cardData = docSnap.data();
-    // Update the existing document
-    const updateData = {
-      ...cardData,
-      setId,
-      owners: {
-        ...cardData.owners,
-        [owner]: {
-          rarities: {
-            ...((cardData.owners[owner] && cardData.owners[owner].rarities) ||
-              {}),
-            [rarity]:
-              ((cardData.owners[owner] &&
-                cardData.owners[owner].rarities[rarity]) ||
-                0) + cardAmount,
+        lastAddedOn: Date.now(),
+      });
+      return newCount;
+    } else {
+      const cardData = docSnap.data();
+      const currentCount = cardData.owners[owner]?.rarities[rarity] || 0;
+      const newCount = currentCount + delta;
+      transaction.update(ref, {
+        owners: {
+          ...cardData.owners,
+          [owner]: {
+            rarities: {
+              ...cardData.owners[owner]?.rarities,
+              [rarity]: newCount,
+            },
           },
         },
-      },
-      lastAddedOn: Date.now(),
-    };
-    await updateDoc(ref, updateData);
-  }
+        lastAddedOn: Date.now(),
+      });
+      return newCount;
+    }
+  });
+
+  return newCount;
 };
 
 export const getCardData = async (setId, owner) => {
@@ -189,6 +193,40 @@ export const getAllGradedCards = async () => {
     return cards;
   } catch (err) {
     console.error("Error getting cards: ", err);
+  }
+};
+
+export const makeSetFavorite = async (setId) => {
+  try {
+    const favoriteRef = doc(db, "favoriteSets", setId);
+    await setDoc(favoriteRef, { setId }); // set ID is used for reference
+    console.log(`Set ${setId} has been added to favorites`);
+  } catch (error) {
+    console.log(`Error adding favorite: ${error}`);
+  }
+};
+
+export const removeSetFavorite = async (setId) => {
+  try {
+    const favoriteRef = doc(db, "favoriteSets", setId);
+    await deleteDoc(favoriteRef);
+    console.log(`Set ${setId} has been removed from favorites`);
+  } catch (error) {
+    console.log(`Error removing favorite: ${error}`);
+  }
+};
+
+export const getAllFavoriteSets = async () => {
+  try {
+    const favoriteSetsRef = collection(db, "favoriteSets");
+    const querySnapshot = await getDocs(favoriteSetsRef);
+    let favoriteSets = [];
+    querySnapshot.forEach((doc) => {
+      favoriteSets.push(doc.id);
+    });
+    return favoriteSets;
+  } catch (error) {
+    console.log(`Error getting favorite sets: ${error}`);
   }
 };
 

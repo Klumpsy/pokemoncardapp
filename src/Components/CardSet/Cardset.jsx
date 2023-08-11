@@ -1,12 +1,18 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, StarOutlined, StarFilled } from '@ant-design/icons';
 import "./cardset.css";
 
-const CardSet = ({ data }) => {
+const CardSet =  ({ data, handleFavorite, isFavorited }) => {
     return (
-      <div key={data.id} className='card_set_card'>
+      <div 
+      key={data.id} 
+      className={`card_set_card ${isFavorited ? "favorite_set_border" : ""}`}
+      >
         <div className="left_side_info">
+        <div onClick={handleFavorite}>
+          {isFavorited ? <StarFilled className="favorite_icon" /> :  <StarOutlined className="favorite_icon" />}
+        </div>
           <div className='card_image_container'>
             <img alt={data.name} src={data.images.logo} />
           </div>
@@ -28,7 +34,6 @@ const CardSet = ({ data }) => {
             </Link>
          </div>
        </div>
-       
       </div>
     );
   }
