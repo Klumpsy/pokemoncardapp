@@ -1,30 +1,22 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
-import { Spin } from "antd"
+import React, { useState, useEffect, useContext} from "react";
+import { Spin, Select, Input } from "antd"
 import { useParams } from "react-router-dom";
 import PokeCard from "../../Components/Card/PokeCard";
-import SearchBar from "../../Components/SearchBar/SearchBar";
-import FilterBar from "../../Components/FilterBar/Filterbar";
-import { filterCards } from "../../Helpers/FilterHelper";
 import { getCardData} from '../../Helpers/FirebaseHelper';
 import OwnerContext from '../../Context/OwnerContext.js';
-import lodash from "lodash";
 import "./cards.css";
+
+const { Option } = Select;
 
 const Cards = () => {
     const [cards, setCards] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
-    const [order, setOrder] = useState("asc");
-    const [rarity, setRarity] = useState("");
-    const [type, setType] = useState("");
-    const [holo, setHolo] = useState("");
-    const [period, setPeriod] = useState("");
-    const [comparison, setComparison] = useState("");
-    const [price, setPrice] = useState("");
     const [cardData, setCardData] = useState({});
-    const { owner } = useContext(OwnerContext);
+    const { owner, setOwner } = useContext(OwnerContext);
     const { setId } = useParams(); 
-
+  
     const [cardTypesCount, setCardTypesCount] = useState({});
 
     useEffect(() => {
@@ -48,6 +40,7 @@ const Cards = () => {
             });
             const sortedData = updatedData.sort((a, b) => Number(a.number) - Number(b.number));
             setCards(sortedData);
+            setFilteredData(sortedData);
           } catch (error) {
             console.error(error);
           }
@@ -79,37 +72,44 @@ const Cards = () => {
       countCardTypes();
   }, [cardData, owner])
 
-    const handleSearch = lodash.debounce((term) => {
-      setSearchTerm(term.toLowerCase());
-    }, 50);
+  useEffect(() => {
+    handleSearch(searchTerm)
+  }, [searchTerm]);
 
-    const filteredCards = useMemo(() => 
-    filterCards(cards, rarity, type, holo, period, price, comparison, searchTerm, order),
-    [cards, rarity, type, holo, period, price, comparison, searchTerm, order]);
+  const handleSearch = (event) => {
+    if(!cards || !cardData){
+        
+    }
+    const searchTerm = event.toLowerCase();
+    const filtered = cards.filter((card) => {
+      return card.name.toLowerCase().includes(searchTerm) 
+      || card.number.toLowerCase().includes(searchTerm);
+    });
+
+    setFilteredData(filtered);
+}
 
     return (
         <div>
             <div className='search_filter_sticky_container'>
                 <div className="searchbar_container">
-                  <SearchBar value={searchTerm} onChange={handleSearch} />
+                   <Input 
+                    type='search'
+                    placeholder="search card by id or name"
+                    value={searchTerm}
+                    onChange={(e) => {setSearchTerm(e.target.value)}}
+                   />
                 </div>
                 <div className="filter_container">
-                  <FilterBar 
-                    order={order} 
-                    setOrder={setOrder} 
-                    rarity={rarity} 
-                    setRarity={setRarity} 
-                    type={type} 
-                    setType={setType}
-                    holo={holo} 
-                    setHolo={setHolo}
-                    period={period}
-                    setPeriod={setPeriod} 
-                    comparison={comparison}
-                    setComparison={setComparison} 
-                    price={price} 
-                    setPrice={setPrice} 
-                  />
+                <Select
+                  placeholder="Select an Owner"
+                  onChange={value => setOwner(value)}
+                  defaultValue={'bartmartin'}
+                  >
+                  <Option value="martin">Martin</Option>
+                  <Option value="bartmartin">Bart & Martin</Option>
+                  <Option value="ronald">Ronald</Option>
+                </Select>
               </div>
           </div>
           {isLoading ?  
@@ -119,11 +119,12 @@ const Cards = () => {
              : 
               <div className="pokemon_cards_container">
                 <div class="total_count_container">
+                  <p><strong>Total: </strong>{cardTypesCount.holoCount + cardTypesCount.normalCount + cardTypesCount.reverseCount}</p>
                   <p><strong>Normal: </strong>{cardTypesCount.normalCount}</p>
                   <p><strong>Reverse: </strong>{cardTypesCount.reverseCount}</p>
                   <p><strong>Holo: </strong>{cardTypesCount.holoCount}</p>
                 </div>
-                {filteredCards.map(card => (
+                {filteredData.map(card => (
                     < PokeCard 
                     key={card.id} 
                     card={card} 
