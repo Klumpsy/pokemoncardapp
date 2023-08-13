@@ -1,6 +1,31 @@
 .pokemon_cards_container {
     display: flex;
     flex-wrap: wrap;
+    width: 95%;
+}
+
+.cards_total_wrapper {
+    display: flex;
+}
+
+.miniature_container {
+    width: 200px;
+    height: 700px;
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    margin-top: 1rem;
+    .mini_card {
+        width: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        span {
+            margin-left: .6rem;
+        }
+    }
 }
 
 .spinner_loader_container {

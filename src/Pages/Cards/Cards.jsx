@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext, useRef} from "react";
 import { Spin, Select, Input } from "antd"
 import { useParams } from "react-router-dom";
 import PokeCard from "../../Components/Card/PokeCard";
@@ -16,6 +16,7 @@ const Cards = () => {
     const [cardData, setCardData] = useState({});
     const { owner, setOwner } = useContext(OwnerContext);
     const { setId } = useParams(); 
+    const miniatureCardsRefs = useRef([]);
   
     const [cardTypesCount, setCardTypesCount] = useState({});
 
@@ -89,53 +90,85 @@ const Cards = () => {
     setFilteredData(filtered);
 }
 
-    return (
-        <div>
-            <div className='search_filter_sticky_container'>
-                <div className="searchbar_container">
-                   <Input 
-                    type='search'
-                    placeholder="search card by id or name"
-                    value={searchTerm}
-                    onChange={(e) => {setSearchTerm(e.target.value)}}
-                   />
-                </div>
-                <div className="filter_container">
-                <Select
+const scrollToCard = (idx) => {
+  const cardRef = miniatureCardsRefs.current[idx];
+  if (cardRef) {
+      cardRef.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+return (
+ <>
+  <div className='search_filter_sticky_container'>
+          <div className="searchbar_container">
+              <Input
+                  type='search'
+                  placeholder="search card by id or name"
+                  value={searchTerm}
+                  onChange={(e) => { setSearchTerm(e.target.value); }}
+              />
+          </div>
+          <div className="filter_container">
+              <Select
                   placeholder="Select an Owner"
                   onChange={value => setOwner(value)}
                   defaultValue={'bartmartin'}
-                  >
+              >
                   <Option value="martin">Martin</Option>
                   <Option value="bartmartin">Bart & Martin</Option>
                   <Option value="ronald">Ronald</Option>
-                </Select>
-              </div>
+              </Select>
           </div>
-          {isLoading ?  
-              <div className="spinner_loader_container">
-                <Spin size="large" />
-              </div>
-             : 
-              <div className="pokemon_cards_container">
-                <div class="total_count_container">
+      </div>
+      <div class="total_count_container">
                   <p><strong>Total: </strong>{cardTypesCount.holoCount + cardTypesCount.normalCount + cardTypesCount.reverseCount}</p>
                   <p><strong>Normal: </strong>{cardTypesCount.normalCount}</p>
                   <p><strong>Reverse: </strong>{cardTypesCount.reverseCount}</p>
                   <p><strong>Holo: </strong>{cardTypesCount.holoCount}</p>
-                </div>
-                {filteredData.map(card => (
-                    < PokeCard 
-                    key={card.id} 
-                    card={card} 
-                    cardData={card.data} 
-                    setId={setId} 
-                 />
-                ))}
               </div>
-          } 
-        </div>
-    );
+      <div className="cards_total_wrapper">
+      
+      {isLoading ?
+          <div className="spinner_loader_container">
+              <Spin size="large" />
+          </div>
+          :
+          <div className="pokemon_cards_container">
+              {filteredData.map((card, idx) => (
+                  <div
+                      ref={(ref) => miniatureCardsRefs.current[idx] = ref}
+                      key={card.id}
+                  >
+                      <PokeCard
+                          card={card}
+                          cardData={card.data}
+                          setId={setId}
+                      />
+                  </div>
+              ))}
+          </div>
+      }
+      <div className="miniature_container">
+          {filteredData.map((card, idx) => (
+              <div
+                  className='mini_card'
+                  onClick={() => scrollToCard(idx)}
+                  key={card.id}
+              >
+                <span>
+                  {card.number}
+                </span>
+                 <img
+                    alt="pokemon-card"
+                    src={card.images.small}
+                    style={{ width: "30px" }}
+                  />
+              </div>
+          ))}
+      </div>
+  </div>
+ </>
+);
 };
 
 export default Cards;
