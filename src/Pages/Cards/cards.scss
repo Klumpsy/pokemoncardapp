@@ -18,6 +18,9 @@
     overflow-y: auto;
     margin-top: 1rem;
     .mini_card {
+        :hover {
+            cursor: pointer;
+        }
         width: 50px;
         display: flex;
         flex-direction: column;

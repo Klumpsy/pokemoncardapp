@@ -42,6 +42,10 @@
           justify-content: center;
 }
 
+.miniature_container .mini_card :hover {
+  cursor: pointer;
+}
+
 .miniature_container .mini_card span {
   margin-left: .6rem;
 }
