@@ -93,7 +93,7 @@ const Cards = () => {
 const scrollToCard = (idx) => {
   const cardRef = miniatureCardsRefs.current[idx];
   if (cardRef) {
-      cardRef.scrollIntoView({ behavior: "smooth" });
+      cardRef.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 };
 
@@ -135,15 +135,16 @@ return (
           :
           <div className="pokemon_cards_container">
               {filteredData.map((card, idx) => (
-                  <div
-                      ref={(ref) => miniatureCardsRefs.current[idx] = ref}
-                      key={card.id}
+                    <div
+                    ref={(ref) => miniatureCardsRefs.current[idx] = ref}
+                    key={card.id}
                   >
-                      <PokeCard
-                          card={card}
-                          cardData={card.data}
-                          setId={setId}
-                      />
+                    <div style={{height: "50px"}}></div> {/* Invisible element */}
+                    <PokeCard
+                      card={card}
+                      cardData={card.data}
+                      setId={setId}
+                    />
                   </div>
               ))}
           </div>

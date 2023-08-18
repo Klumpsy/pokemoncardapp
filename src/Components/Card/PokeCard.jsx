@@ -50,7 +50,7 @@ const PokeCard = memo(({ card, setId, cardData }) => {
   
   const handleRemove = async () => {
     const currentCount = cardData?.rarities?.[cardRarity] || 0;
-    if (currentCount > 0) {
+    if (currentCount > 0 || normalCount > 0 || holoCount > 0 || reverseCount > 0 || promoCount > 0) {
       const newCount = await setCardCount(setId, card.id, card.name, owner, -1, cardRarity);
       if (cardRarity === 'normal') {
         setNormalCount(newCount);
@@ -122,7 +122,7 @@ const PokeCard = memo(({ card, setId, cardData }) => {
               && <OwnerBadge owner={owner} />
             }
           </div>
-          {cardData &&
+
               <div className="firebase_data_container">
               <div>
                 Normal: {normalCount}
@@ -137,7 +137,7 @@ const PokeCard = memo(({ card, setId, cardData }) => {
                 Promo: {promoCount}
               </div>
             </div>
-          }
+          
           <div className='card_add_and_remove_buttons_container'>
             <Button
                 type="default danger"
